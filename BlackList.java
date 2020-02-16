@@ -20,17 +20,21 @@ class BlackList {
 
     }
 
+
     public static boolean valPhone(String input) {
         return (input.matches("[0-9]+"));
     }
+
 
     private void checkAlreadyExist(String contact) throws BlackListException{
         if(blackList.contains(contact))throw new AlreadyExistException();
     }
 
+
     private void checkIncorrectName(String input) throws BlackListException{
         if((!valEmail(input)) && (!valPhone(input))) throw new IncorrectNameException();
     }
+
 
     public BlackList(String...contacts) throws BlackListException {
         blackList = new HashSet<>();
@@ -40,6 +44,28 @@ class BlackList {
             blackList.add(contact);
         }
     }
+
+
+    public void addEntry(String contact) throws BlackListException{
+        checkIncorrectName(contact);
+        checkAlreadyExist(contact);
+        blackList.add(contact);
+    }
+
+
+    public boolean hasEntry(String contact) throws BlackListException {
+        checkIncorrectName(contact);
+        if(blackList.contains(contact))return true;
+        else return false;
+    }
+
+
+    public void dropEntry(String contact) throws BlackListException{
+        checkIncorrectName(contact);
+        if((!blackList.contains(contact)))throw new DoesNotExistException();
+        blackList.remove(contact);
+    }
+
 
 }
 
