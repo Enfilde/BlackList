@@ -105,5 +105,14 @@ class BlackList {
         return union;
 
     }
+
+
+    public void showList(HashSet<String>blackList){
+        for(String contact : blackList){
+            System.out.println(contact);
+        }
+    }
 }
+
+
 
