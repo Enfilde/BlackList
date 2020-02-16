@@ -91,11 +91,19 @@ class BlackList {
     }
 
 
+    public HashSet getIntersection(BlackList list){
+        HashSet<String> intersection = new HashSet<String>(this.blackList);
+        intersection.retainAll(list.blackList);
+        return intersection;
+
+    }
 
 
+    public HashSet getUnion(BlackList list){
+        HashSet<String> union = new HashSet<String>(this.blackList);
+        union.addAll(list.blackList);
+        return union;
 
-
-
-
+    }
 }
 
