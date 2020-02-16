@@ -67,5 +67,18 @@ class BlackList {
     }
 
 
+    public void clear(){
+        blackList.clear();
+    }
+
+
+    public int getEntriesCount(){
+        return blackList.size();
+    }
+
+
+    
+
+
 }
 
