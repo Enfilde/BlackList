@@ -5,7 +5,7 @@ import Exception.AlreadyExistException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class BlackList2Test {
+public class BlackListTest {
 
 
     @Test
