@@ -32,5 +32,14 @@ class BlackList {
         if((!valEmail(input)) && (!valPhone(input))) throw new IncorrectNameException();
     }
 
+    public BlackList(String...contacts) throws BlackListException {
+        blackList = new HashSet<>();
+        for(String contact : contacts) {
+            checkIncorrectName(contact);
+            checkAlreadyExist(contact);
+            blackList.add(contact);
+        }
+    }
+
 }
 
