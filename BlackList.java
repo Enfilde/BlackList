@@ -77,7 +77,24 @@ class BlackList {
     }
 
 
-    
+    public void addEntries(String...contacts) {
+        for (String contact : contacts) {
+            if(valEmail(contact) || valPhone(contact)) blackList.add(contact);
+        }
+    }
+
+
+    public void dropEntries(String...contacts) {
+        for (String contact : contacts){
+            if(valEmail(contact) || valPhone(contact)) blackList.remove(contact);
+        }
+    }
+
+
+
+
+
+
 
 
 }
