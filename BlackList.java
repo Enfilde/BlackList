@@ -23,5 +23,14 @@ class BlackList {
     public static boolean valPhone(String input) {
         return (input.matches("[0-9]+"));
     }
+
+    private void checkAlreadyExist(String contact) throws BlackListException{
+        if(blackList.contains(contact))throw new AlreadyExistException();
+    }
+
+    private void checkIncorrectName(String input) throws BlackListException{
+        if((!valEmail(input)) && (!valPhone(input))) throw new IncorrectNameException();
+    }
+
 }
 
