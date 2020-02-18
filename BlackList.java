@@ -22,23 +22,23 @@ class BlackList {
 
 
     public static boolean valPhone(String input) {
-        return (input.matches("[0-9]+"));
+        return (input.charAt(0) == '3' && input.charAt(1) == '8' && input.charAt(2) == '0' && input.matches("[0-9]+") && input.length() == 12);
     }
 
 
-    private void checkAlreadyExist(String contact) throws BlackListException{
-        if(blackList.contains(contact))throw new AlreadyExistException();
+    private void checkAlreadyExist(String contact) throws BlackListException {
+        if (blackList.contains(contact)) throw new AlreadyExistException();
     }
 
 
-    private void checkIncorrectName(String input) throws BlackListException{
-        if((!valEmail(input)) && (!valPhone(input))) throw new IncorrectNameException();
+    private void checkIncorrectName(String input) throws BlackListException {
+        if ((!valEmail(input)) && (!valPhone(input))) throw new IncorrectNameException();
     }
 
 
-    public BlackList(String...contacts) throws BlackListException {
+    public BlackList(String... contacts) throws BlackListException {
         blackList = new HashSet<>();
-        for(String contact : contacts) {
+        for (String contact : contacts) {
             checkIncorrectName(contact);
             checkAlreadyExist(contact);
             blackList.add(contact);
@@ -46,7 +46,7 @@ class BlackList {
     }
 
 
-    public void addEntry(String contact) throws BlackListException{
+    public void addEntry(String contact) throws BlackListException {
         checkIncorrectName(contact);
         checkAlreadyExist(contact);
         blackList.add(contact);
@@ -55,64 +55,84 @@ class BlackList {
 
     public boolean hasEntry(String contact) throws BlackListException {
         checkIncorrectName(contact);
-        if(blackList.contains(contact))return true;
+        if (blackList.contains(contact)) return true;
         else return false;
     }
 
 
-    public void dropEntry(String contact) throws BlackListException{
+    public void dropEntry(String contact) throws BlackListException {
         checkIncorrectName(contact);
-        if((!blackList.contains(contact)))throw new DoesNotExistException();
+        if ((!blackList.contains(contact))) throw new DoesNotExistException();
         blackList.remove(contact);
     }
 
 
-    public void clear(){
+    public void clear() {
         blackList.clear();
     }
 
 
-    public int getEntriesCount(){
+    public int getEntriesCount() {
         return blackList.size();
     }
 
 
-    public void addEntries(String...contacts) {
+    public void addEntries(String... contacts) throws IncorrectNameException {
         for (String contact : contacts) {
-            if(valEmail(contact) || valPhone(contact)) blackList.add(contact);
+            if (valEmail(contact) || valPhone(contact)) blackList.add(contact);
         }
     }
 
 
-    public void dropEntries(String...contacts) {
-        for (String contact : contacts){
-            if(valEmail(contact) || valPhone(contact)) blackList.remove(contact);
+    public void dropEntries(String... contacts) throws IncorrectNameException {
+        for (String contact : contacts) {
+            if (valEmail(contact) || valPhone(contact)) blackList.remove(contact);
         }
     }
 
 
-    public HashSet getIntersection(BlackList list){
+    public BlackList getIntersection(BlackList list) throws BlackListException {
         HashSet<String> intersection = new HashSet<String>(this.blackList);
         intersection.retainAll(list.blackList);
-        return intersection;
+        BlackList intersectionList = new BlackList();
+        intersectionList.addEntries(intersection.toString());
+        return intersectionList;
 
     }
 
 
-    public HashSet getUnion(BlackList list){
-        HashSet<String> union = new HashSet<String>(this.blackList);
+    public BlackList getUnion(BlackList list) throws BlackListException {
+        HashSet<String> union = new HashSet<>(this.blackList);
         union.addAll(list.blackList);
-        return union;
+        BlackList unionList = new BlackList();
+        unionList.addEntries(union.toString());
+        return unionList;
 
     }
 
 
-    public void showList(HashSet<String>blackList){
-        for(String contact : blackList){
+    public BlackList getDifference(BlackList list) throws BlackListException {
+        HashSet<String> diff1 = new HashSet<>(this.blackList);
+        HashSet<String> diff2 = new HashSet<>(list.blackList);
+
+        diff1.removeAll(list.blackList);
+        diff2.removeAll(this.blackList);
+
+        HashSet<String> unionOfDiffs = new HashSet<>(diff1);
+        unionOfDiffs.addAll(diff2);
+
+        BlackList differenceList = new BlackList();
+        differenceList.addEntries(unionOfDiffs.toString());
+
+        return differenceList;
+
+    }
+
+
+    public void showList() {
+        for (String contact : this.blackList) {
             System.out.println(contact);
         }
     }
 }
-
-
 
