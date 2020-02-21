@@ -22,7 +22,10 @@ class BlackList {
 
 
     public static boolean valPhone(String input) {
-        return (input.charAt(0) == '3' && input.charAt(1) == '8' && input.charAt(2) == '0' && input.matches("[0-9]+") && input.length() == 12);
+        String phoneRegex = "^\\+(?:[0-9] ?){6,14}[0-9]$";
+        Pattern phonePattern = Pattern.compile(phoneRegex);
+        Matcher matcher = phonePattern.matcher(input);
+        return matcher.find();
     }
 
 
