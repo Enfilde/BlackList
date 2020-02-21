@@ -1,7 +1,8 @@
 import Exception.BlackListException;
+import Exception.AlreadyExistException;
 import Exception.IncorrectNameException;
 import Exception.DoesNotExistException;
-import Exception.AlreadyExistException;
+import static org.junit.Assert.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,18 +44,31 @@ public class BlackListTest {
     }
 
 
-    @Test(expected = IncorrectNameException.class)
+    @Test
     public void BlacklistAddEntryIncorrectCases() throws BlackListException {
         BlackList blackList = new BlackList();
-        blackList.addEntry("");
 
-    }
+        try {
+            blackList.addEntry("");
+            fail();
+        }
+        catch (IncorrectNameException e){
+            Assert.assertEquals("Entry Name Is Incorrect",e.getMessage());
+        }
 
-    @Test(expected = AlreadyExistException.class)
-    public void BlacklistAddEntryIncorrectCases_2() throws BlackListException {
-        BlackList blackList = new BlackList();
         blackList.addEntry("some_addr@test.com");
-        blackList.addEntry("some_addr@test.com");
+
+        try {
+            blackList.addEntry("some_addr@test.com");
+            fail();
+        }
+        catch (AlreadyExistException e){
+            Assert.assertEquals("Entry already exists",e.getMessage());
+        }
+
+        Assert.assertEquals(1,blackList.getEntriesCount());
+        Assert.assertEquals(true,blackList.hasEntry("some_addr@test.com"));
+
     }
 
 
@@ -93,6 +107,18 @@ public class BlackListTest {
 
         blackList.dropEntry("wrong_format");
 
+    }
+
+
+    @Test(expected = IncorrectNameException.class)
+    public void BlacklistDropEntryIncorrectCases_4() throws BlackListException {
+        BlackList blackList = new BlackList();
+
+        blackList.addEntry("some_addr@test.com");
+        blackList.addEntry("+380975018366");
+        blackList.addEntry("+380541238746");
+
+        blackList.dropEntry("");
     }
 
 
