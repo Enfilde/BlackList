@@ -10,7 +10,7 @@ import Exception.IncorrectNameException;
 
 class BlackList {
 
-    public HashSet<String> blackList;
+    private HashSet<String> blackList;
 
     private static boolean valEmail(String input) {
         String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
