@@ -51,9 +51,8 @@ public class BlackListTest {
         try {
             blackList.addEntry("");
             fail();
-        }
-        catch (IncorrectNameException e){
-            Assert.assertEquals("Entry Name Is Incorrect",e.getMessage());
+        } catch (IncorrectNameException e) {
+            Assert.assertEquals("Entry Name Is Incorrect", e.getMessage());
         }
 
         blackList.addEntry("some_addr@test.com");
@@ -61,13 +60,12 @@ public class BlackListTest {
         try {
             blackList.addEntry("some_addr@test.com");
             fail();
-        }
-        catch (AlreadyExistException e){
-            Assert.assertEquals("Entry already exists",e.getMessage());
+        } catch (AlreadyExistException e) {
+            Assert.assertEquals("Entry already exists", e.getMessage());
         }
 
-        Assert.assertEquals(1,blackList.getEntriesCount());
-        Assert.assertEquals(true,blackList.hasEntry("some_addr@test.com"));
+        Assert.assertEquals(1, blackList.getEntriesCount());
+        Assert.assertEquals(true, blackList.hasEntry("some_addr@test.com"));
 
     }
 
@@ -222,19 +220,19 @@ public class BlackListTest {
     @Test
     public void GetIntersection() throws BlackListException {
 
-        BlackList list1 = new BlackList("mail@test.com", "+380975018366", "correct@mail.com","+380975018367");
+        BlackList list1 = new BlackList("mail@test.com", "+380975018366", "correct@mail.com", "+380975018367");
         BlackList list2 = new BlackList("mail@test.com", "+380975018366", "+380975018367");
         BlackList intersectionResult = new BlackList("mail@test.com", "+380975018366", "+380975018367");
 
         Assert.assertEquals(intersectionResult, list1.getIntersection(list2));
-        Assert.assertEquals(intersectionResult,list2.getIntersection(list1));
+        Assert.assertEquals(intersectionResult, list2.getIntersection(list1));
 
         BlackList emptyList1 = new BlackList();
         BlackList emptyList2 = new BlackList();
 
-        Assert.assertEquals(0,list1.getIntersection(emptyList1).getEntriesCount());
-        Assert.assertEquals(0,emptyList1.getIntersection(emptyList2).getEntriesCount());
-        Assert.assertEquals(list2,list2.getIntersection(list2));
+        Assert.assertEquals(0, list1.getIntersection(emptyList1).getEntriesCount());
+        Assert.assertEquals(0, emptyList1.getIntersection(emptyList2).getEntriesCount());
+        Assert.assertEquals(list2, list2.getIntersection(list2));
 
     }
 
@@ -244,20 +242,20 @@ public class BlackListTest {
 
 
         BlackList list1 = new BlackList("mail@test.com", "+380975018366", "correct@mail.com", "+380975018367");
-        BlackList list2 = new BlackList("mail@test.com", "+380975018367","bush@gmail.ru","+380975018368");
+        BlackList list2 = new BlackList("mail@test.com", "+380975018367", "bush@gmail.ru", "+380975018368");
 
-        BlackList unionResult = new BlackList("mail@test.com", "+380975018367", "correct@mail.com","+380975018366","bush@gmail.ru","+380975018368");
+        BlackList unionResult = new BlackList("mail@test.com", "+380975018367", "correct@mail.com", "+380975018366", "bush@gmail.ru", "+380975018368");
 
-        Assert.assertEquals(unionResult,list1.getUnion(list2));
-        Assert.assertEquals(unionResult,list2.getUnion(list1));
+        Assert.assertEquals(unionResult, list1.getUnion(list2));
+        Assert.assertEquals(unionResult, list2.getUnion(list1));
 
         BlackList emptyList1 = new BlackList();
         BlackList emptyList2 = new BlackList();
 
-        Assert.assertEquals(list1,list1.getUnion(emptyList1));
-        Assert.assertEquals(list1,emptyList1.getUnion(list1));
-        Assert.assertEquals(0,emptyList1.getUnion(emptyList2).getEntriesCount());
-        Assert.assertEquals(list1,list1.getUnion(list1));
+        Assert.assertEquals(list1, list1.getUnion(emptyList1));
+        Assert.assertEquals(list1, emptyList1.getUnion(list1));
+        Assert.assertEquals(0, emptyList1.getUnion(emptyList2).getEntriesCount());
+        Assert.assertEquals(list1, list1.getUnion(list1));
 
     }
 
@@ -266,20 +264,20 @@ public class BlackListTest {
     public void GetDifference() throws BlackListException {
 
         BlackList list1 = new BlackList("mail@test.com", "+380975018366", "correct@mail.ru", "+380975018367");
-        BlackList list2 = new BlackList("mail@test.com", "+380975018366","bush@gmail.com","+380975018368");
+        BlackList list2 = new BlackList("mail@test.com", "+380975018366", "bush@gmail.com", "+380975018368");
 
-        BlackList diffResult = new BlackList("correct@mail.com", "+380975018367","bush@gmail.ru","+380975018368");
+        BlackList diffResult = new BlackList("correct@mail.com", "+380975018367", "bush@gmail.ru", "+380975018368");
 
-        Assert.assertEquals(diffResult,list1.getDifference(list2));
-        Assert.assertEquals(diffResult,list2.getDifference(list1));
+        Assert.assertEquals(diffResult, list1.getDifference(list2));
+        Assert.assertEquals(diffResult, list2.getDifference(list1));
 
         BlackList emptyList1 = new BlackList();
         BlackList emptyList2 = new BlackList();
 
-        Assert.assertEquals(list1,list1.getDifference(emptyList1));
-        Assert.assertEquals(list1,emptyList1.getDifference(list1));
-        Assert.assertEquals(0,emptyList1.getDifference(emptyList2).getEntriesCount());
-        Assert.assertEquals(0,list1.getDifference(list1).getEntriesCount());
+        Assert.assertEquals(list1, list1.getDifference(emptyList1));
+        Assert.assertEquals(list1, emptyList1.getDifference(list1));
+        Assert.assertEquals(0, emptyList1.getDifference(emptyList2).getEntriesCount());
+        Assert.assertEquals(0, list1.getDifference(list1).getEntriesCount());
 
     }
 }
