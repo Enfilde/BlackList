@@ -41,11 +41,7 @@ class BlackList {
 
     public BlackList(String... contacts) throws BlackListException {
         blackList = new HashSet<>();
-        for (String contact : contacts) {
-            checkIncorrectName(contact);
-            checkAlreadyExist(contact);
-            blackList.add(contact);
-        }
+        for (String contact : contacts) addEntry(contact);
     }
 
 
@@ -58,8 +54,7 @@ class BlackList {
 
     public boolean hasEntry(String contact) throws BlackListException {
         checkIncorrectName(contact);
-        if (blackList.contains(contact)) return true;
-        else return false;
+        return blackList.contains(contact);
     }
 
 
@@ -138,4 +133,3 @@ class BlackList {
         }
     }
 }
-
